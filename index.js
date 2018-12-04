@@ -9,6 +9,7 @@ app.use(bodyParser.urlencoded({
 }))
 const youtubedl = require('youtube-dl')
 app.listen(3000)
+console.log("App listening on port 3000");
 
 app.get('/', (req, res) => {
   fs.readFile('./index.html', null, (err, data) => {
@@ -27,19 +28,14 @@ app.post('/downloadVideo', (req, res) => {
     ['--format=18'],
     // Additional options can be given for calling `child_process.execFile()`.
     { cwd: __dirname })
-
+  const title = {}
   video.on('info', info => {
-    console.log('Download started')
-    console.log('filename: ' + info.filename)
-    console.log('size: ' + info.size)
-    res.write("Downloading...")
-    video.pipe(fs.createWriteStream(info.filename))
-    video.on('complete', info => {
-    console.log("COMPLETED")
-    res.write('filename: ' + info._filename + ' already downloaded.')
-    res.end()
-    })
+    title.filename = info._filename
+    video.pipe(fs.createWriteStream(info._filename))
   })
-
+  video.on('end', () => {
+  res.write('<p>filename:' + title.filename + '  already downloaded.</p>')
+  res.end()
+  })
 
 })

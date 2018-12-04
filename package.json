@@ -4,7 +4,8 @@
   "description": "Download videos from url without ads or any disturbance. Get what you need, nice and clean.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "index.js"
   },
   "keywords": [
     "downloader",
